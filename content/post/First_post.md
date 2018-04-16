@@ -4,12 +4,12 @@ date: 2018-04-16T18:21:34+03:00
 draft: true
 ---
 
-*This is my first post*
+*Первый пост*
 
 <!--more-->
 
 # First post
 
-hello!
+всем привет!
 
-forth revision
+пятая ревизия
