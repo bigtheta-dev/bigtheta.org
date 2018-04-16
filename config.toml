@@ -1,0 +1,93 @@
+baseURL = "http://bigtheta.org/"
+languageCode = "en-us"
+title = "Big-Theta"
+
+enableRobotsTXT = true
+enableEmoji = true
+theme = "jane"
+
+defaultContentLanguage = "en"
+[languages.en]
+languageCode = "en"
+
+hasCJKLanguage = false 
+paginate = 3             
+rssLimit = 20             
+disqusShortname = ""      # disqus_shortname
+googleAnalytics = ""      # UA-XXXXXXXX-X
+copyright = ""            # default: author.name ↓      
+
+[author]               
+name = "big-theta"
+
+[sitemap]               
+changefreq = "weekly"
+priority = 0.5
+filename = "sitemap.xml"
+
+[[menu.main]]             # config your menu         
+name = "Home"
+weight = 10
+identifier = "home"
+url = "/"
+[[menu.main]]
+name = "Archives"
+weight = 20
+identifier = "archives"
+url = "/post/"
+[[menu.main]]
+name = "Tags"
+weight = 30
+identifier = "tags"
+url = "/tags/"
+[[menu.main]]
+name = "Categories"
+weight = 40
+identifier = "categories"
+url = "/categories/"
+
+[params]
+debug = false             # If true, load `eruda.min.js`. See https://github.com/liriliri/eruda
+since = "2017"            # Site creation time        
+homeFullContent = false   # if false, show post summaries on home page. Othewise show full content.
+rssFullContent = true     # if false, Rss feed instead of the summary
+
+# site info (optional)                                 
+logoTitle = "big-θ"   
+keywords = ["bigtheta", "big-theta","big-θ"]
+description = "Hugo theme jane example site."
+
+# paginate of archives, tags and categories          
+archive-paginate = 3
+
+# The date format to use; for a list of valid formats, see https://gohugo.io/functions/format/
+dateFormatToUse = "2006-01-02"
+
+# show word count and read time ?
+moreMeta = true
+
+# Some global options, you can also close or open something in front matter for a single post, see more information from `archetypes/default.md`.
+toc = true                                                                 
+fancybox = true           # see https://github.com/fancyapps/fancybox     
+bootcdn = false           # In china. @Deprecated: use [params.publicCDN] 
+mathjax = false           # see https://www.mathjax.org/                 
+
+google_verification = ""  # Google_Verification   
+
+# Link custom CSS and JS assets
+#   (relative to /static/css and /static/js respectively)
+customCSS = []            # if ['custom.css'], load '/static/css/custom.css' file
+customJS = []             # if ['custom.js'], load '/static/js/custom.js' file
+
+[params.publicCDN]        # load these files from public cdn                   
+enable = false
+jquery = '<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>'
+slideout = '<script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>'
+fancyboxJs = '<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>'
+fancyboxCss = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">'
+gitmentJS = '<script src="https://cdn.jsdelivr.net/npm/gitment@0.0.3/dist/gitment.browser.min.js" crossorigin="anonymous"></script>'
+gitmentCSS = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitment@0.0.3/style/default.min.css" crossorigin="anonymous">'
+
+[params.social]                             
+a-email = "bigtheta.org@gmail.com"
+g-github = "https://github.com/bigtheta-dev"
