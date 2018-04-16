@@ -8,4 +8,4 @@ weight: 50
 comment: false
 mathjax: false
 ---
-you can close something for this content if you open it in config.toml.
+Hello, It's bigtheta project. I'am professional Java developer. And this site is about developing and all things related to that subject.

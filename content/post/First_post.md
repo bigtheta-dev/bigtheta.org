@@ -6,7 +6,7 @@ draft: true
 #First post
 
 *This is my first post*
-
+<!--more-->
 hello!
 
-fst revision
+snd revision
