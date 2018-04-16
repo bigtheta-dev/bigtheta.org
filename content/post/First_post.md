@@ -8,8 +8,8 @@ draft: true
 
 <!--more-->
 
-#First post
+# First post
 
 hello!
 
-thrd revision
+forth revision
