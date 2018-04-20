@@ -2,7 +2,7 @@
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Maven_logo.svg/220px-Maven_logo.svg.png)
 
 
-**Maven** - система сборки проектов для Java. На данный момент это стандарт в языке. Альтернативой является Gradle, но Maven на данный момент более распространен.
+**Maven** - система сборки проектов для Java. На данный момент это стандарт в языке. По большей мере есть одно альтернатива - Gradle. Он чуть меньше распространен, но достаточно быстро набирает популярность.
 
 **Maven** решает проблемы автоматизации сборки и уравления зависимостями как и другие инструменты этого класса, но имеет некоторые характерные черты:
 * *Maven следует соглашениям по конфигурации*. Он знает какая у проекта должна быть структура,откуда брать файлы ресурсов и куда складывать созданные jar-файлы. И пользователям maven приходится соблюдать эти соглашения.
@@ -10,9 +10,10 @@
 * *Maven вводит понятие жизненного цикла*. Жизненный цикл представляет собой группу последовательных фаз, которые maven исполняет по порядку для достижения определенной цели. К фазам жизненного цикла могут быть прикреплены дополнительные действия при помощи плагинов.
  
 ---
-## Project Object Model
+## Структура POM
 
-Описание представляется в виде xml файла **pom.xml**, который помещается в корень проекта. Структура *pom.xml* выглядит следующим образом:
+
+Описание (*Project Object Model*) представляется в виде xml файла **pom.xml**, который помещается в корень проекта. [Структура *pom.xml*](https://maven.apache.org/pom.html) выглядит следующим образом:
 
 ``` xml
 <project ... >
@@ -57,42 +58,38 @@
 ```
 
 ### Основная информация
-Определяет артефакт, версии зависимостей, зависимости
+Здесь указываются настройки описывающие проект с точки зрения зависимостей.
+1. Определяет координаты, полностью описывающие артефакт в который будет собираться проект/модуль:
+    * **groupId** - обычно описывает организацию, в которой создан проект. Часто использутеся обратная запись доменного имени сайта организации
+    * **artifactId** - обычно название проекта
+    * **version** - версия
+    * **packaging** - вид поставки (jar, war, ear, zip, dir и т.п.)
+2. Также здесь имеются секции для управления зависимостями 
+    * *dependency* - для указания зависимостей, использующихся в данном модуле.
+    * *dependencyManagement* - для указания зависимостей, которые будут использованы в дочерних модулях (концепция Reactor)
+3. Указываются ссылки на родительский и дочернии модули: *modules*, *parent*
 
 ### Настройки сборки
-Настройка процесса сборки
+Здесь указываются дополнительные действия запускающиеся в процессе сборки
+1. В *build* указываются расширяющие возможности сборки, в том числе *plugins*, *pluginManagement*
+2. В *reporting* можно подсоединить плагины для генерации отчетов
 
 ### Метаданные проекта
-Включает параметры специфические для отдельного проекта: имя, организацию, разработчиков и т.п.
+Здесь указывается информация описывающая артифакт. В том числе имя артефакта, описание, авторы, лицензии и т.п. Эта информация может быть очень полезна при публикации артифакта в удаленный репозиторий
 
 ### Окружение
+Здесь располагается информация о разнообразном окружении:
+1. Профили - можно указать различные профили сборки, чтобы гибко управлять процессом сборки на различных окружениях (dev, ci, prod)
+2. Репозитории и репозитории плагинов - можно указать дополнительные репозиторий из которых Maven будет брать зависимости и плагины
+3. Списки рассылки
+4. Ссылки на систему контроля версий, систему непрерывной интеграции, баг трекер и т.п.
 Включает всю информацию про окружение: списки рассылки, репозитории ...
 
-This includes a project’s name, the URL for a project, the sponsoring organization, and a list of
-developers and contributors along with the license for a project.
-
-Build settings
-
-In this section, we customize the behavior of the default Maven build. We can change the location
-of source and tests, we can add new plugins, we can attach plugin goals to the lifecycle, and we can
-customize the site generation parameters.
-
-Build environment
-
-The build environment consists of profiles that can be activated for use in different environments.
-For example, during development you may want to deploy to a development server, whereas in
-production you want to deploy to a production server. The build environment customizes the 
-settings for specific environments and is often supplemented by a custom settings.xml in ~/.m2.
-This settings file is discussed in Chapter 5 and in the section Section 15.2.
-
-POM relationships
-
-A project rarely stands alone; it depends on other projects, inherits POM settings from parent projects, defines its own coordinates, and may include submodules.
-
-### POM inheritance
-#### Super POM
-Все проекты собирающиеся с использованием Maven наследуются от общего родителя, который называется Super POM. В этом POM указаны ряд настроек, предустановленных для все maven проектов. В нем указаны такие настройки:
-* в качестве репозитория для зависимостей и плагинов указан Maven Central (http://repo1.maven.org/maven2)
+---
+## POM inheritance
+### Super POM
+Все проекты собирающиеся с использованием Maven наследуются от общего родителя, который называется Super POM. В этом POM указаны ряд настроек, предустановленных для все maven проектов. В нем указаны следующие настройки:
+* в качестве репозитория для зависимостей и плагинов указан [Maven Central](http://repo1.maven.org/maven2)
 * в build секции указывается структура дерева директория по умолчанию
 * в pluginManagement версии по умолчанию для часто использующихся плагинов
 
@@ -105,19 +102,8 @@ A project rarely stands alone; it depends on other projects, inherits POM settin
 	<version>1</version>
 </project>
 ```
-#### Effective POM
+### Effective POM
 Для того чтобы работать с проектом **Maven** объединяет **Super POM** и **POM** конкретного проекта. В результате этого получается **Effective POM** с которым даллее происходит вся работа.
-
-### The Basics
-В процессе сборки maven собирает артефакт. Артефакт в mavenе описывается четырьмя свойствами:
-* **groupId** - обычно описывает кем создан проект
-* **artifactId** - обычно название проекта
-* **version** - версия проекта
-* **packaging** - вид поставки (jar, war, ear, zip, dir и т.п.)
-
-### Build Settings
-### Project Meta Data
-### Environment
 
 ---
 ## Архетип
@@ -156,7 +142,7 @@ mvn archetype:generate
 ---
 ## Жизненный цикл  
 
-Maven использует понятие жизненного цикла. Жизненный цикл представляет собой последовательность фаз. Каждая фаза выполняет некоторое определенное действие. Выполнение происходит последовательно, т.е. сначала по порядку исполняются все предшествующие фазы, а затем исполняется указанная фаза. 
+Maven использует понятие [жизненного цикла](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html). Жизненный цикл представляет собой последовательность фаз. Каждая фаза выполняет некоторое определенное действие. Выполнение происходит последовательно, т.е. сначала по порядку исполняются все предшествующие фазы, а затем исполняется указанная фаза. 
 
 В maven имеются три преднастроенных жизненных цикла: **clean**, **default**, **site**
 
@@ -192,21 +178,10 @@ mvn clean
 mvn clean package
 ```
 ---
-## Плагины
-
-На фазы могут прикрепляться дополнительные действия при помощи механизма плагинов.
-
----
-## Репозитории
-Репозитории
-* *Локальный репозиторий* (aka .m2)
-* *Корпоративный репозиторий*
-* *Центральный репозиторий*
-
-
-
----
 ## Управление зависимостями
+Для [управления зависимостями](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html) используется секция *dependency*. По умолчанию Maven работает с Maven Central репозиторием (он указана в Super POM, от которого наследуются все проекты). Добавить свои репозитории можно в секцию *repositories* 
+
+Для ссылки на зависимость необходимо указать четыре атрибута. Зависимость выглядит следующим образом:
 
 ```xml
 <dependencies>
@@ -218,20 +193,38 @@ mvn clean package
 	</dependency>
 </dependencies>
 ```
+Maven разрешает зависимости на первых шагах жизненного цикла по умолчанию. Делается это при помощи [maven-dependency-plugin](https://maven.apache.org/plugins/maven-dependency-plugin/index.html), поддержка которого вшита в Super POM. Первые это стандартное описание артефакта. Помимо них есть еще атрибут *dependency scope*
 
-Dependency scope
+### Dependency scope
+Dependency scope используется для ограничения использования зависимости и более гибкого управления ей.
+1. **compile** - область видимости по умолчанию. Зависимость помещается в classpath проекта и может быть использована в зависимых проектах
+2. **provided** - указывает что зависимость будет добавлена JDK или J2EE контейнером. Считается не очень хорошим тоном указывать так зависимость т.к. нельзя точно гарантировать версию зависимости на prod и это такое рассогласование с dev может привести к прохим последствиям 
+3. **runtime** - зависимость не нужна для компиляции, а должна подкладываться только в runtime
+4. **test** - зависимости необходимы только для процесса компиляции и выполнения тестов
+5. **system** - аналогична *provided*
+6. **import** - поддерживаются только зависимости с типом pom из *dependencyManagement* родительского pom. Указывает что зависимость будет замещена версией из *dependencyManagement*
 
-
-1. **compile**
-2. **provided**
-3. **runtime**
-4. **test**
-5. **system**
-6. **import**
+### Транзитивные зависимости
 ---
 
+## Settings.xml
 
-## Транзитивные зависимости
+
+
+
+---
+## Репозитории
+Репозитории
+* *Локальный репозиторий* (aka .m2) 
+* *Корпоративный репозиторий*
+* *Центральный репозиторий*
+
+---
+## Плагины
+
+На фазы могут прикрепляться дополнительные действия при помощи механизма плагинов.
+
+
 
 
 ## Профили сборки
@@ -241,7 +234,7 @@ Dependency scope
 
 ## Многомодульный проект
 
-## Reactor
+# Reactor
 
 ## BOM
 
@@ -252,9 +245,15 @@ Dependency scope
 
 
 ## Источники
-1. Getting started guide: [https://maven.apache.org/guides/getting-started/index.html](https://maven.apache.org/guides/getting-started/index.html)
-2. Maven: The Complete Reference (pdf) [http://books.sonatype.com/mvnref-book/pdf/mvnref-pdf.pdf](http://books.sonatype.com/mvnref-book/pdf/mvnref-pdf.pdf)
-3. Apache Maven Cookbook(pdf) [https://www.javacodegeeks.com/wp-content/uploads/2016/09/Apache-Maven-Cookbook.pdf](https://www.javacodegeeks.com/wp-content/uploads/2016/09/Apache-Maven-Cookbook.pdf)
+> [Getting started guide](https://maven.apache.org/guides/getting-started/index.html)
+
+> [Maven: The Complete Reference (pdf)](http://books.sonatype.com/mvnref-book/pdf/mvnref-pdf.pdf)
+
+> [Apache Maven Cookbook(pdf)](https://www.javacodegeeks.com/wp-content/uploads/2016/09/Apache-Maven-Cookbook.pdf)
+
+
+
+
 ---
 ---
 ---
