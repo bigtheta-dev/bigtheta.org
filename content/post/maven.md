@@ -6,7 +6,7 @@ tags: ["maven", "dependency management", "m2"]
 categories: ["java technology"]
 ---
 
-**Maven** - система сборки проектов для Java. На данный момент это стандарт в языке.
+**Maven** - система сборки для Java проектов. На данный момент это стандарт в языке.
 
 <!--more-->
 
